@@ -1,7 +1,7 @@
 {
   "name": "qq-music",
   "version": "1.0.0",
-  "description": " QQ音乐",
+  "description": " 网易云音乐",
   "author": "nifan",
   "private": true,
   "scripts": {
@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "fastclick": "^1.0.6",
+    "jsonp": "^0.2.1",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "vue": "^2.5.2",

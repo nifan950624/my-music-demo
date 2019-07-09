@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import home from '@/components/Home'
+import recommends from '@/components/pages/recommends/recommends'
+import hotSongRank from '@/components/pages/hotSongRank/hotSongRank'
+import searchSong from '@/components/pages/searchSong/searchSong'
 
 Vue.use(Router)
 
@@ -8,8 +10,20 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
-      component: home
+      redirect: '/recommends',
+    },
+    {
+      path: '/recommends',
+      component: recommends
+    },
+    {
+      path: '/hotSongRank',
+      component: hotSongRank
+    },
+    {
+      path: '/searchSong',
+      component: searchSong
     }
+
   ]
 })

@@ -5,7 +5,6 @@ import App from './App'
 import router from './router'
 import FastClick from 'fastclick'
 import 'style/reset.css'
-import 'style/border.css'
 
 Vue.config.productionTip = false
 FastClick.attach(document.body);

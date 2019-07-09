@@ -1,5 +1,5 @@
 @charset "utf-8";
-
+@import './border.css';
 html {
   background-color: #fff;
   color: #000;
