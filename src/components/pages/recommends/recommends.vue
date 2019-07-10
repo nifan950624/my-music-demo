@@ -13,14 +13,17 @@
             </li>
           </ol>
         </section>
-        <section class="songs">
+        <section class="new-songs">
           <h2 class="sectionTitle">最新音乐</h2>
           <ol id="songs" class="list">
-            <div id="songs-loading" class="square-spin" style="margin: 0 auto; width: 50px;"
-            v-for="song of newSong" :key="song.id"
-            >
-              <div>{{song.name}}</div>
-            </div>
+            <router-link tag="li" :to="'/player/' + song" class="new-song" v-for="song of newSong" :key="song.id">
+              <div class="song-name">{{song.name}}</div>
+              <div class="song-text">
+                <span class="iconfont icon-sq"></span>
+                <span class="song-author">{{song.singer[0].name}}{{song.subtitle}}</span>
+              </div>
+              <span class="iconfont icon-bofanganniu play-icon-wrapper"></span>
+            </router-link>
           </ol>
         </section>
         <section class="art">
@@ -117,6 +120,8 @@
 
 <script>
 import { getJsonpData } from "common/js/jsonp.js";
+import { getVkey } from "common/js/getVkey.js";
+
 const ERR_OK = 0;
 export default {
   data() {
@@ -138,19 +143,25 @@ export default {
     },
     getNewSong() {
       getJsonpData(
-        'https://u.y.qq.com/cgi-bin/musicu.fcg?-=recom8252880194081378&g_tk=1451191286&loginUin=1950333426&hostUin=0&format=json&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq.json&needNewCode=0&data=%7B%22comm%22%3A%7B%22ct%22%3A24%7D%2C%22new_song%22%3A%7B%22module%22%3A%22newsong.NewSongServer%22%2C%22method%22%3A%22get_new_song_info%22%2C%22param%22%3A%7B%22type%22%3A5%7D%7D%7D',
+        "https://u.y.qq.com/cgi-bin/musicu.fcg?-=recom8252880194081378&g_tk=1451191286&loginUin=1950333426&hostUin=0&format=json&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq.json&needNewCode=0&data=%7B%22comm%22%3A%7B%22ct%22%3A24%7D%2C%22new_song%22%3A%7B%22module%22%3A%22newsong.NewSongServer%22%2C%22method%22%3A%22get_new_song_info%22%2C%22param%22%3A%7B%22type%22%3A5%7D%7D%7D",
         { param: "callback" }
       ).then(res => {
         if (res.code === ERR_OK) {
-          const newSong= res.new_song.data.songlist
-          this.newSong = newSong
+          const newSong = res.new_song.data.songlist;
+          this.newSong = newSong;
         }
+      });
+    },
+    getSong() {
+      getVkey("000knnTl05SPQ6").then(res => {
+        
       });
     }
   },
   created() {
-    this.getRecommendList()
-    this.getNewSong()
+    this.getRecommendList();
+    this.getNewSong();
+    this.getSong();
   }
 };
 </script>
@@ -204,25 +215,34 @@ section.playlists > .songs > li img {
   width: 100%;
 }
 
-section.songs > .list {
-  margin-top: 18px;
+section.new-songs > .list {
+  margin-top: 14px;
 }
 
-section.songs > .list > li > h3 {
+section.new-songs .song-name {
+  margin-top: 5px;
   font-size: 17px;
 }
 
-section.songs > .list > a {
-  display: block;
-  outline: none;
+section.new-songs .song-text {
+  margin-top: 5px;
+  line-height: 17px;
+  font-size: 0;
 }
 
-section.songs > .list > li > p {
+section.new-songs .icon-sq {
+  vertical-align: middle;
+  margin-right: 3px;
+  color: #d43c33;
+}
+
+section.new-songs .song-author {
+  vertical-align: middle;
   font-size: 12px;
   color: #888;
 }
 
-section.songs > .list > li {
+section.new-songs .new-song {
   position: relative;
   margin-left: 10px;
   padding-bottom: 6px;
@@ -230,18 +250,14 @@ section.songs > .list > li {
   border-bottom: 1px solid #e2e2e3;
 }
 
-section.songs > .list .playButton {
+section.new-songs .play-icon-wrapper {
   position: absolute;
+  display: block;
+  font-size: 22px;
   right: 8px;
   top: 50%;
   transform: translateY(-50%);
-}
-
-section.songs > .list .icon-play {
-  width: 22px;
-  height: 22px;
-  vertical-align: middle;
-  fill: #aaa;
+  color: #888;
 }
 
 section.songs > .list .icon-sq {

@@ -80,7 +80,7 @@
     </section>
     <section id="tabselect" class="globalTabs">
       <ol class="tabs-nav">
-        <router-link tag="li" to="/recommends" class="active" data-page="page-1">
+        <router-link tag="li" to="/recommends" data-page="page-1">
           <div class="text">推荐音乐</div>
         </router-link>
         <router-link tag="li" to="/hotSongRank" data-page="page-2">

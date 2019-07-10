@@ -1,0 +1,33 @@
+@font-face {font-family: "iconfont";
+  src: url('./iconfonts/iconfont.eot?t=1562748877152'); /* IE9 */
+  src: url('./iconfonts/iconfont.eot?t=1562748877152#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAQsAAsAAAAACMgAAAPgAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDIgqEdIQdATYCJAMUCwwABCAFhG0HSRuaBxEVnGfJfhw4bsOKinlO1t3yIFbUSPrPQUB5VTWSTXoW4gk/iX5JkwABcFtzdQQSbdTJkjyLHv5tMWk5yzP1icO9NoGibD7Lchlr05iLugDjgAIbY3nXeaAF8gH8K6jXTKwG6ON1CMAQTw5EqTKVauGgofMEIDq1b9scp2JCDxQKHAR2x1aNmIaFI8fLS8DU5PfiI/mEAxJLQZdWa1O6FcXeiDfF1TDvMI0iAuLtHICxCxSQA9AgWnS6GqGyaA4UxjtPkwew0QjkG/WmuNeLLYWJCa6ZbQCFvP4/D2FDVb6gFotpeCMEFwreSCWJWkHJkLo4JA9EZUVbDOABLgLfUE1qUiZQWEhf0HNGhgceP7DNmn2xevH+jLYbhw+8davW7du1796te+dOP66okwrK/BZDwzrDK+X8/dnrblzSdoIxczYM3+ihzIlzh88xJ+w6FDv/cFqYZ/b6YeuMmTBr2OyelWuPDj/SfG6MWHAk3aw6FMlg2DMxImz2jLTwIrPINmdKeViYmTBHiOFztzlldlhd/13XYuXi6wUD9t5MUEtu1DfD/hM2CHVQWsDE9fT1SJVeP21DtLVwo2+VFqXnPSms4RvzbJ/zsUTHZtZAq0fjj8WL5SBRFTui//xZHGH8SCBlRcn+S8X16vlzBfl6VQCZ+kGB+34v2JqfigH5l/1bNd2fhfOEaPgsOT4lQKqx7sGQg+5YJbmIf/ubxZo8yxefP2CmezHkojtXv+xQdGP5wVvVFFPy2MhtJU3yxm0jTY9HdYIvBdceKGTf1kGPgtqM6+hecKe4F92R5qAzcO+pbqV8KviU6kbS7DWhG0JPCU0FlDHfm/9yMGIB6vJHbrQX2BurQhPZNZp+AHh/z5PkG+iPKVZeDEAdl6OUgFel/oq/ofieJ1/igELfHI8G4H7Fc5dVr/eYZlnMQcJk8T8gntilfSk1W9ptFyLXYzHwLk6RgMEAb78YIJgn22jCJueDwCGsgMSHOCgcUomamgMWHgrAxqEoDNkpu9tDCD1QCO0C2RhNIAhkKyT+HIUikMtETX0Mi3A+wyZQKBgc/x2O3LtW7+4KU4MFZCPUOQ/ErWaXFn6wtF2qytKE8Y9K1wEIvaCeeOOAaosV2pWRMQSkuIcXuQ27jkEobjA3XmWMuPk+db3Iy7mf7NwpKGWgAsiMQC3HBhT1N3aN73+gktVJqYGOHu8/pGj18CDkCSYQ36phUserjNacUsQwSJ1FFNYDLzhQx6IMiO5JDZQzPNWCsHDjK71oqso7XtPf4wHAoEdbSaGEFpawWdyl4z5jSoeSrxlqO9NyKVKrcTIB') format('woff2'),
+  url('./iconfonts/iconfont.woff?t=1562748877152') format('woff'),
+  url('./iconfonts/iconfont.ttf?t=1562748877152') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('./iconfonts/iconfont.svg?t=1562748877152#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-play:before {
+  content: "\e603";
+}
+
+.icon-bofanganniu:before {
+  content: "\e602";
+}
+
+.icon-sq:before {
+  content: "\e601";
+}
+
+.icon-pause:before {
+  content: "\e641";
+}
+
