@@ -3,7 +3,6 @@ import Router from 'vue-router'
 import recommends from '@/components/pages/recommends/recommends'
 import hotSongRank from '@/components/pages/hotSongRank/hotSongRank'
 import searchSong from '@/components/pages/searchSong/searchSong'
-import player from '@/components/pages/player/player'
 
 Vue.use(Router)
 
@@ -25,10 +24,6 @@ export default new Router({
     {
       path: '/searchSong',
       component: searchSong
-    },
-    {
-      path: '/player/:song',
-      component: player
     }
   ]
 })

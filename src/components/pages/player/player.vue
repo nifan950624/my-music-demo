@@ -1,9 +1,13 @@
 <template>
-  <div class="player">
+  <div class="player" v-show="song.id">
     <div class="page">
-      <div class="page-opacity" >
+      <div class="page-opacity" 
+      :style="{backgroundImage: `url(${songMsg.image})`}">
       </div>
-      <audio :src="songUrl" ref="audio"></audio>
+      <audio
+      @ended="audioEnd" 
+      :src="songMsg.url" 
+      ref="audio"></audio>
       <div class="disc-container" 
       :class="{playing : isplay}">
         <img
@@ -33,7 +37,7 @@
             src="//s3.music.126.net/m/s/img/disc_light-ip6.png?996fc8a2bc62e1ab3f51f135fc459577"
             alt
           />
-          <img src="#" alt class="cover" />
+          <img :src="songMsg.image" alt class="cover" />
         </div>
       </div>
       <div class="song-description">
@@ -51,24 +55,40 @@
 </template>
 
 <script>
-import { getVkey } from "common/js/getVkey.js";
-import { createSong } from "common/js/getSong.js";
+import { getVkey } from "common/js/getVkey.js"
+import { createSong } from "common/js/getSong.js"
+import { mapGetters } from 'vuex'
 export default {
   name: "player",
   data() {
     return {
+      song:{},
       vKey: "",
       songmid: "",
-      songUrl: "",
-      isplay: false
+      isplay: false,
+      songMsg: {},
     };
   },
   watch: {
+    '$store.state.song': function (){
+      this.song = this.$store.state.song
+      this.getSong(this.song.mid)
+    },
     vKey() {
-      this.songUrl = createSong(this.songmid, this.vKey).url;
-    }
+      this.songMsg = createSong(this.song,this.vKey)
+      if (this.songMsg.url) {
+        this.isplay = !this.isplay
+        //延时获取数据后再播放
+       setTimeout(()=>{
+          this.$refs.audio.play()
+        },20)
+      }
+    },
   },
   methods: {
+    audioEnd() {
+      this.isplay = false
+    },
     getSong(mid) {
       getVkey(mid).then(key => {
         this.vKey = key;
@@ -84,21 +104,18 @@ export default {
       }
     }
   },
-  created() {
-    this.songmid = this.$route.params.song;
-    this.getSong(this.songmid);
-  }
-};
+}
 </script>
 
 <style scoped>
 .player {
   position: fixed;
+  top: 0;
   left: 0;
   width: 100%;
   height: 100vh;
   z-index: 99;
-  background: grey;
+  background: grey ;
 }
 
 @keyframes circle {
@@ -125,7 +142,7 @@ export default {
   height: 100%;
   width: 100%;
   filter: blur(10px);
-  background: url() no-repeat center center;
+  background: grey no-repeat center center;
   background-size: cover;
   z-index: -1;
 }
@@ -158,17 +175,6 @@ export default {
 }
 
 .disc-container .pointer {
-  width: 24vw;
-  position: absolute;
-  left: 45vw;
-  transform-origin: 1.5vw 0vh;
-  transform: rotate(-20deg);
-  transition: all 0.4s;
-}
-
-.disc-container.playing .pointer {
-  transition: all 0.4s;
-  transform: rotate(0deg);
   width: 24vw;
   position: absolute;
   left: 45vw;

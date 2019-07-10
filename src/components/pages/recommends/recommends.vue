@@ -16,14 +16,16 @@
         <section class="new-songs">
           <h2 class="sectionTitle">最新音乐</h2>
           <ol id="songs" class="list">
-            <router-link tag="li" :to="'/player/' + song" class="new-song" v-for="song of newSong" :key="song.id">
+            <li 
+            @click="handleSongClick(song)"
+            class="new-song" v-for="song of newSong" :key="song.id">
               <div class="song-name">{{song.name}}</div>
               <div class="song-text">
                 <span class="iconfont icon-sq"></span>
                 <span class="song-author">{{song.singer[0].name}}{{song.subtitle}}</span>
               </div>
               <span class="iconfont icon-bofanganniu play-icon-wrapper"></span>
-            </router-link>
+            </li>
           </ol>
         </section>
         <section class="art">
@@ -120,7 +122,6 @@
 
 <script>
 import { getJsonpData } from "common/js/jsonp.js";
-import { getVkey } from "common/js/getVkey.js";
 
 const ERR_OK = 0;
 export default {
@@ -152,16 +153,13 @@ export default {
         }
       });
     },
-    getSong() {
-      getVkey("000knnTl05SPQ6").then(res => {
-        
-      });
+    handleSongClick(song) {
+      this.$store.commit('addSong',song)
     }
   },
   created() {
-    this.getRecommendList();
-    this.getNewSong();
-    this.getSong();
+    this.getRecommendList()
+    this.getNewSong()
   }
 };
 </script>
