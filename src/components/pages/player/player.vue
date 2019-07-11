@@ -57,6 +57,7 @@
 <script>
 import { getVkey } from "common/js/getVkey.js"
 import { createSong } from "common/js/getSong.js"
+import { getLyric } from "common/js/getSongLyric.js"
 import { mapGetters } from 'vuex'
 export default {
   name: "player",
@@ -73,6 +74,7 @@ export default {
     '$store.state.song': function (){
       this.song = this.$store.state.song
       this.getSong(this.song.mid)
+      this.getSongLyric(this.song)
     },
     vKey() {
       this.songMsg = createSong(this.song,this.vKey)
@@ -94,6 +96,14 @@ export default {
         this.vKey = key;
       })
     },
+
+    //获取歌词
+    getSongLyric(song) {
+      console.log(song)
+      getLyric(song).then((res)=> {
+      })
+    },
+
     handleMusicClick(e) {
       this.isplay = !this.isplay
       if(this.isplay) {

@@ -117,14 +117,20 @@
         </section>
       </div>
     </div>
+    <song-list></song-list>
   </div>
 </template>
 
 <script>
-import { getJsonpData } from "common/js/jsonp.js";
+import {getRecommend} from "common/js/getRecommend.js"
+import songList from '../songList/songList'
+import {getNewSong} from 'common/js/getNewSong'
 
 const ERR_OK = 0;
 export default {
+  components: {
+    songList
+  },
   data() {
     return {
       songList: [],
@@ -133,25 +139,18 @@ export default {
   },
   methods: {
     getRecommendList() {
-      getJsonpData(
-        "https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg?g_tk=5381&uin=0&notice=0",
-        { param: "jsonpCallback" }
-      ).then(res => {
+      getRecommend().then(res => {
         if (res.code === ERR_OK) {
           this.songList = res.data.songList;
         }
       });
     },
-    getNewSong() {
-      getJsonpData(
-        "https://u.y.qq.com/cgi-bin/musicu.fcg?-=recom8252880194081378&g_tk=1451191286&loginUin=1950333426&hostUin=0&format=json&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq.json&needNewCode=0&data=%7B%22comm%22%3A%7B%22ct%22%3A24%7D%2C%22new_song%22%3A%7B%22module%22%3A%22newsong.NewSongServer%22%2C%22method%22%3A%22get_new_song_info%22%2C%22param%22%3A%7B%22type%22%3A5%7D%7D%7D",
-        { param: "callback" }
-      ).then(res => {
+    getNewSongList() {
+      getNewSong().then(res => {
         if (res.code === ERR_OK) {
-          const newSong = res.new_song.data.songlist;
-          this.newSong = newSong;
+          this.newSong = res.new_song.data.songlist
         }
-      });
+      })
     },
     handleSongClick(song) {
       this.$store.commit('addSong',song)
@@ -159,7 +158,7 @@ export default {
   },
   created() {
     this.getRecommendList()
-    this.getNewSong()
+    this.getNewSongList()
   }
 };
 </script>
