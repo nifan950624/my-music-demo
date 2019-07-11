@@ -43,7 +43,10 @@
       <div class="song-description">
         <h1></h1>
         <div class="lyric">
-          <div class="lines"></div>
+          <div class="lines" :style="{'transform':translate}">
+            <p v-for="(lyric,index) of songLyric.lines" :key="index"
+            :class="{'active': currentNum === index}">{{lyric.txt}}</p>
+          </div>
         </div>
       </div>
       <div class="links">
@@ -58,7 +61,8 @@
 import { getVkey } from "common/js/getVkey.js"
 import { createSong } from "common/js/getSong.js"
 import { getLyric } from "common/js/getSongLyric.js"
-import { mapGetters } from 'vuex'
+// import { mapGetters } from 'vuex'
+import Lyric from 'lyric-parser'
 export default {
   name: "player",
   data() {
@@ -68,6 +72,9 @@ export default {
       songmid: "",
       isplay: false,
       songMsg: {},
+      songLyric: '',
+      currentNum: 0,
+      translate: 0
     };
   },
   watch: {
@@ -75,6 +82,9 @@ export default {
       this.song = this.$store.state.song
       this.getSong(this.song.mid)
       this.getSongLyric(this.song)
+    },
+    currentNum() {
+      this.translate = `translateY(${-this.currentNum * 24 + 'px'})` 
     },
     vKey() {
       this.songMsg = createSong(this.song,this.vKey)
@@ -86,6 +96,9 @@ export default {
         },20)
       }
     },
+    isplay() {
+      
+    }
   },
   methods: {
     audioEnd() {
@@ -96,21 +109,37 @@ export default {
         this.vKey = key;
       })
     },
+    //处理获取到的歌词
+    HtmlDecode(str) { 
+    var t = document.createElement("div"); 
+    t.innerHTML = str; 
+    return t.textContent || t.innerText;
+  },
 
     //获取歌词
     getSongLyric(song) {
-      console.log(song)
       getLyric(song).then((res)=> {
+       let lyric = this.HtmlDecode(res.data.lyric)
+        this.songLyric = new Lyric(lyric, this.handleLyric)
+        if (this.isplay) {
+          this.songLyric.play()
+        } 
       })
+    },
+
+    handleLyric({lineNum,txt}) {
+      this.currentNum = lineNum
     },
 
     handleMusicClick(e) {
       this.isplay = !this.isplay
       if(this.isplay) {
         this.$refs.audio.play()
+        // this.songLyric.play()
       }
       else {
         this.$refs.audio.pause()
+        this.songLyric.stop()
       }
     }
   },

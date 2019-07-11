@@ -18,7 +18,6 @@ export function getLyric(song) {
         jsonpCallback:'jsonp1',
     }
     return axios.get(url, {params : data}).then((data) => {
-        console.log(data)
         return data
     })
 }
