@@ -5,9 +5,11 @@
         <section class="playlists">
           <h2 class="sectionTitle">推荐歌单</h2>
           <ol class="songs">
-            <li v-for="item of songList" :key="item.id">
+            <li v-for="item of songList" :key="item.id" 
+            @click="handleListClick(item)"
+            >
               <div class="cover">
-                <img width="105" :src="item.picUrl" alt="封面" />
+                <img width="105" :src="item.picUrl"/>
               </div>
               <p>{{item.songListDesc}}</p>
             </li>
@@ -118,26 +120,35 @@
       </div>
     </div>
     <song-list></song-list>
+    <list-detail :cdlist="cdlist"></list-detail>
   </div>
 </template>
 
 <script>
-import {getRecommend} from "common/js/getRecommend.js"
+import {getRecommend,getNewSong} from 'common/js/getRecommend'
 import songList from '../songList/songList'
-import {getNewSong} from 'common/js/getNewSong'
+import {getListDetail} from 'common/js/getListDetail'
+import listDetail from '../listDetail/listDetail'
 
 const ERR_OK = 0;
 export default {
   components: {
-    songList
+    songList,
+    listDetail
   },
   data() {
     return {
       songList: [],
-      newSong: []
+      newSong: [],
+      cdlist: []
     };
   },
   methods: {
+    handleListClick(songlist) {
+      getListDetail(songlist).then((res)=> {
+        this.cdlist = res.data.cdlist
+      })
+    },
     getRecommendList() {
       getRecommend().then(res => {
         if (res.code === ERR_OK) {

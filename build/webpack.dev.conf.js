@@ -52,11 +52,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     },
     before(app) {
       //歌单代理
-      app.get('/api/getDiscList', function (req, res) {
-        var url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'
+      app.get('/api/getListDetail', function (req, res) {
+        var url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg'
         axios.get(url, {
           headers: {
-            referer: 'https://c.y.qq.com/',
+            referer: 'https://y.qq.com/n/yqq/playlist',
+            origin: 'https://c.y.qq.com/',
             host: 'c.y.qq.com'
           },
           params: req.query
@@ -71,10 +72,10 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       app.get('/api/lyric', function (req, res) {
         var url = 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric.fcg'
         axios.get(url, {
-          headers: {
-            referer: 'https://c.y.qq.com',
-            host: 'c.y.qq.com'
-          },
+          // headers: {
+          //   referer: 'https://c.y.qq.com',
+          //   host: 'c.y.qq.com'
+          // },
           params: req.query
         }).then((response) => {
           var ret = response.data.lyric
@@ -85,7 +86,8 @@ const devWebpackConfig = merge(baseWebpackConfig, {
               ret = JSON.parse(matches[1])
             }
           }
-          res.json(response)
+          console.log(response)
+          res.json(ret)
         }).catch((e) => {
           console.log(e)
         })
@@ -137,7 +139,6 @@ module.exports = new Promise((resolve, reject) => {
           ? utils.createNotifierCallback()
           : undefined
       }))
-
       resolve(devWebpackConfig)
     }
   })

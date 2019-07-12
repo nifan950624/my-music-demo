@@ -1,5 +1,5 @@
 <template>
-  <div class="player" v-show="song.id">
+  <div class="player" v-show="song.id || song.songid">
     <div class="page">
       <div class="page-opacity" 
       :style="{backgroundImage: `url(${songMsg.image})`}">
@@ -58,11 +58,9 @@
 </template>
 
 <script>
-import { getVkey } from "common/js/getVkey.js"
-import { createSong } from "common/js/getSong.js"
-import { getLyric } from "common/js/getSongLyric.js"
-// import { mapGetters } from 'vuex'
+import {getVkey,createSong ,getLyric} from "common/js/getSong.js"
 import Lyric from 'lyric-parser'
+
 export default {
   name: "player",
   data() {
@@ -80,7 +78,7 @@ export default {
   watch: {
     '$store.state.song': function (){
       this.song = this.$store.state.song
-      this.getSong(this.song.mid)
+      this.getSong(this.song.mid ? this.song.mid : this.song.songmid )
       this.getSongLyric(this.song)
     },
     currentNum() {
@@ -96,9 +94,6 @@ export default {
         },20)
       }
     },
-    isplay() {
-      
-    }
   },
   methods: {
     audioEnd() {
