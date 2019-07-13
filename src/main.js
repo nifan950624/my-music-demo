@@ -9,7 +9,7 @@ import store from 'common/store/vuex'
 
 Vue.config.productionTip = false
 FastClick.attach(document.body);
-
+Vue.prototype.bus = new Vue()
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

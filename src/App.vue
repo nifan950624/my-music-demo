@@ -2,9 +2,9 @@
   <div id="app">
     <vheader></vheader>
     <keep-alive exclude="player">
-      <router-view></router-view>
+      <router-view @playSong="handlePlay"></router-view>
     </keep-alive>
-    <vplayer></vplayer>
+    <vplayer ref="player"></vplayer>
   </div>
 </template>
 
@@ -17,7 +17,12 @@ export default {
   components: {
     vheader,
     vplayer
-  }
+  },
+  methods: {
+    handlePlay() {
+      this.$refs.player.play()
+    }
+  },
 };
 </script>
 

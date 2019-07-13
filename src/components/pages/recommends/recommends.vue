@@ -1,7 +1,7 @@
 <template>
-  <div class="page recommend">
+  <div class="recommend" ref="wrapper">
     <div class="tab-content noCollapse">
-      <div class="page-1 active">
+      <div class="page-1">
         <section class="playlists">
           <h2 class="sectionTitle">推荐歌单</h2>
           <ol class="songs">
@@ -120,7 +120,7 @@
       </div>
     </div>
     <song-list></song-list>
-    <list-detail :cdlist="cdlist"></list-detail>
+    <list-detail ref="songlist" :cdlist="cdlist"></list-detail>
   </div>
 </template>
 
@@ -129,6 +129,7 @@ import {getRecommend,getNewSong} from 'common/js/getRecommend'
 import songList from '../songList/songList'
 import {getListDetail} from 'common/js/getListDetail'
 import listDetail from '../listDetail/listDetail'
+import BScroll from 'better-scroll'
 
 const ERR_OK = 0;
 export default {
@@ -145,6 +146,7 @@ export default {
   },
   methods: {
     handleListClick(songlist) {
+      this.$refs.songlist.show()
       getListDetail(songlist).then((res)=> {
         this.cdlist = res.data.cdlist
       })
@@ -164,37 +166,49 @@ export default {
       })
     },
     handleSongClick(song) {
+     this.$store.commit('isShow', true)
       this.$store.commit('addSong',song)
     }
   },
   created() {
     this.getRecommendList()
     this.getNewSongList()
+    // this.$nextTick(()=> {
+    //   if(!this.scroll) {
+    //     this.scroll = new BScroll(this.$refs.wrapper,{click:true})
+    //   } else {
+    //     this.scroll.refresh();
+    //   }
+    // })
   }
 };
 </script>
 
 <style scoped>
+
+img {
+  vertical-align: top;
+}
+
+.recommend {
+  position: absolute;
+  top: 105px;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  overflow: auto;
+}
+
+.tab-content {
+  padding-top: 20px;
+}
+
 .sectionTitle {
   border-left: 2px solid #d43c33;
   font-size: 17px;
   line-height: 1;
   padding-left: 8px;
-  margin: 20px 0 8px;
-}
-
-.tab-content {
-  margin-top: 105px;
-}
-
-.noCollapse::before {
-  content: "";
-  display: table;
-}
-
-.noCollapse::after {
-  content: "";
-  display: table;
+  margin: 0px 0 8px 0;
 }
 
 section.playlists > .songs {
@@ -221,6 +235,10 @@ section.playlists > .songs > li p {
 
 section.playlists > .songs > li img {
   width: 100%;
+}
+
+section.new-songs {
+  padding-top: 20px;
 }
 
 section.new-songs > .list {

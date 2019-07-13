@@ -1,5 +1,6 @@
 <template>
-  <div class="container" v-show="cdlist.length">
+  <div class="container" v-show="isShow">
+    <div @click="handleBackClick" class="back iconfont icon-xiangshangjiantouarrowup"></div>
     <!-- header -->
     <div class="header-wrapper">
       <div class="header">
@@ -29,7 +30,7 @@
     <!-- song-list -->
     <div class="song-list">
       <div class="title">歌曲列表</div>
-      <ol class="song-list-container">
+      <ol class="song-list-container" >
         <li 
         @click="handleSongClick(song)"
         class="song-item" v-for="(song, index) of currentList.songlist" :key="song.id">
@@ -46,13 +47,14 @@
     </div>
 
     <!-- footer -->
-    <div class="collect-list">
+    <div class="collect-list border-top">
       <div class="collect-button">收藏歌单</div>
     </div>
   </div>
 </template>
 
 <script>
+// import BScroll from 'better-scroll'
 export default {
   props: {
     cdlist: {
@@ -65,18 +67,27 @@ export default {
   data() {
     return {
       currentList: {},
-      backgroundUrl: ''
+      backgroundUrl: '',
+      isShow: false
     };
   },
   watch: {
     cdlist() {
-      this.currentList = this.cdlist[0];
-      this.backgroundUrl = this.currentList.logo 
+      this.currentList = this.cdlist[0]
+      this.backgroundUrl = this.currentList.logo
+      
     }
   },
   methods: {
+    show() {
+      this.isShow = true
+    },
     handleSongClick(song) {
+      this.$store.commit('isShow',true)
       this.$store.commit('addSong',song)
+    },
+    handleBackClick() {
+      this.isShow = false 
     }
   }
 };
@@ -90,8 +101,18 @@ export default {
   width: 100%;
   height: 100%;
   overflow: auto;
-  z-index: 10;
+  z-index: 95;
   background: white;
+}
+
+.back {
+  position:absolute;
+  padding:5px;
+  top:2px;
+  left:10px;
+  border-radius: 50%;
+  z-index:55;
+  color: white;
 }
 
 img {
@@ -103,6 +124,7 @@ img {
   width: 100%;
   height: 186px;
   overflow: hidden;
+  background: rgba(0, 15, 17, 0.4)
 }
 
 .header-opacity {
@@ -233,6 +255,7 @@ img {
   bottom: 0;
   left: 0;
   width: 100%;
+  background: #fff;
 }
 
 .collect-button {

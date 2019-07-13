@@ -1,5 +1,6 @@
 <template>
-  <div class="player" v-show="song.id || song.songid">
+  <div class="player" v-show="isShow">
+    <div @click="handleBackClick" class="back iconfont icon-back"></div>
     <div class="page">
       <div class="page-opacity" 
       :style="{backgroundImage: `url(${songMsg.image})`}">
@@ -72,7 +73,8 @@ export default {
       songMsg: {},
       songLyric: '',
       currentNum: 0,
-      translate: 0
+      translate: 0,
+      isShow: false 
     };
   },
   watch: {
@@ -81,6 +83,9 @@ export default {
       this.getSong(this.song.mid ? this.song.mid : this.song.songmid )
       this.getSongLyric(this.song)
     },
+     '$store.state.isShow': function (){
+       this.isShow = this.$store.state.isShow
+     },
     currentNum() {
       this.translate = `translateY(${-this.currentNum * 24 + 'px'})` 
     },
@@ -96,6 +101,10 @@ export default {
     },
   },
   methods: {
+    handleBackClick() {
+      this.isShow = false
+      this.$store.commit('isShow',false)
+    },
     audioEnd() {
       this.isplay = false
     },
@@ -152,6 +161,17 @@ export default {
   background: grey ;
 }
 
+.back {
+  position:absolute;
+  padding:5px;
+  top:20px;
+  left:10px;
+  border-radius: 50%;
+  z-index:55;
+  color: #aeabac;
+}
+
+
 @keyframes circle {
   0% {
     transform: rotate(0deg);
@@ -166,7 +186,7 @@ export default {
   flex-direction: column;
   height: 100vh;
   position: relative;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .page-opacity {
