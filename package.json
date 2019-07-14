@@ -5,7 +5,7 @@
   "author": "nifan",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "dev": "webpack-dev-server --host 0.0.0.0 --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "unit": "jest --config test/unit/jest.conf.js --coverage",
     "test": "npm run unit",
@@ -15,6 +15,7 @@
     "axios": "^0.19.0",
     "better-scroll": "^1.15.2",
     "fastclick": "^1.0.6",
+    "js-base64": "^2.5.1",
     "jsonp": "^0.2.1",
     "lyric-parser": "^1.0.1",
     "stylus": "^0.54.5",

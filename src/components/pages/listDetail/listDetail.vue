@@ -6,8 +6,8 @@
       <div class="header">
         <div class="header-opacity" 
         :style="{backgroundImage:`url(${currentList.logo})`}"></div>
-        <div class="ablum-wrapper">
-          <img :src="currentList.logo" width="126" height="126" style="background:black" />
+        <div class="ablum-wrapper" style="width:126px;height:126px">
+          <img :src="currentList.logo" width="126" height="126"/>
         </div>
         <div class="header-text">
           <h1 class="list-title">{{currentList.dissname}}</h1>
@@ -22,7 +22,7 @@
     <div class="songlist-desc">
       <div class="desc">
         <span class="dt">简介:</span>
-        <span class="dd">{{currentList.desc}}</span>
+        <span class="dd">{{currentdDesc}}</span>
       </div>
       <div class></div>
     </div>
@@ -30,20 +30,7 @@
     <!-- song-list -->
     <div class="song-list">
       <div class="title">歌曲列表</div>
-      <ol class="song-list-container" >
-        <li 
-        @click="handleSongClick(song)"
-        class="song-item" v-for="(song, index) of currentList.songlist" :key="song.id">
-          <div class="num">{{index+1}}</div>
-          <div class="song-info-wrapper border-bottom">
-            <div class="song-info">
-              <div class="song-title">{{song.songname}}</div>
-              <div class="singer">{{song.singer[0].name}}</div>
-            </div>
-          </div>
-          <div class="play-icon iconfont icon-bofanganniu"></div>
-        </li>
-      </ol>
+      <songlist :songlist="currentList.songlist"></songlist>
     </div>
 
     <!-- footer -->
@@ -54,6 +41,7 @@
 </template>
 
 <script>
+import songlist from '../songList/songList'
 // import BScroll from 'better-scroll'
 export default {
   props: {
@@ -63,6 +51,9 @@ export default {
         return [];
       }
     }
+  },
+  components: {
+    songlist
   },
   data() {
     return {
@@ -78,17 +69,20 @@ export default {
       
     }
   },
+  computed: {
+    currentdDesc() {
+      var t = document.createElement("div"); 
+      t.innerHTML = this.currentList.desc; 
+      return t.textContent || t.innerText;
+    }
+  },
   methods: {
     show() {
       this.isShow = true
     },
-    handleSongClick(song) {
-      this.$store.commit('isShow',true)
-      this.$store.commit('addSong',song)
-    },
     handleBackClick() {
       this.isShow = false 
-    }
+    },
   }
 };
 </script>
@@ -98,8 +92,8 @@ export default {
   position: fixed;
   left: 0;
   top: 0;
+  bottom: 50px;
   width: 100%;
-  height: 100%;
   overflow: auto;
   z-index: 95;
   background: white;
@@ -200,54 +194,6 @@ img {
   -webkit-box-orient: vertical;
 }
 
-.song-item {
-  position: relative;
-  display: flex;
-}
-
-.num {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  font-size: 17px;
-  font-weight: 700;
-  text-align: center;
-  color: #999;
-}
-
-.song-list-container {
-  padding-bottom: 54px;
-}
-
-.song-info-wrapper {
-  flex: 1;
-  padding: 6px 0;
-}
-
-.song-info-wrapper.border-bottom::before {
-  border-color: rgba(7, 17, 27, 0.1);
-}
-
-.song-title {
-  font-size: 17px;
-  line-height: 24px;
-  margin-right: 35px;
-}
-
-.singer {
-  font-size: 12px;
-  color: #888;
-}
-
-.play-icon {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 25px;
-  color: rgba(7, 17, 27, 0.3);
-}
 
 .collect-list {
   position: fixed;

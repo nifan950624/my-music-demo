@@ -42,7 +42,7 @@
         </div>
       </div>
       <div class="song-description">
-        <h1></h1>
+        <h1>{{song.name || song.songname}}</h1>
         <div class="lyric">
           <div class="lines" :style="{'transform':translate}">
             <p v-for="(lyric,index) of songLyric.lines" :key="index"
@@ -61,14 +61,13 @@
 <script>
 import {getVkey,createSong ,getLyric} from "common/js/getSong.js"
 import Lyric from 'lyric-parser'
-
+import { Base64 } from 'js-base64';
 export default {
   name: "player",
   data() {
     return {
       song:{},
       vKey: "",
-      songmid: "",
       isplay: false,
       songMsg: {},
       songLyric: '',
@@ -80,19 +79,20 @@ export default {
   watch: {
     '$store.state.song': function (){
       this.song = this.$store.state.song
-      this.getSong(this.song.mid ? this.song.mid : this.song.songmid )
+      this.getSong(this.song.mid || this.song.songmid)
       this.getSongLyric(this.song)
     },
      '$store.state.isShow': function (){
        this.isShow = this.$store.state.isShow
+       this.isplay = true
      },
     currentNum() {
-      this.translate = `translateY(${-this.currentNum * 24 + 'px'})` 
+      this.translate = `translateY(${-(this.currentNum-1) * 24 + 'px'})` 
     },
     vKey() {
       this.songMsg = createSong(this.song,this.vKey)
       if (this.songMsg.url) {
-        this.isplay = !this.isplay
+        this.isplay = true
         //延时获取数据后再播放
        setTimeout(()=>{
           this.$refs.audio.play()
@@ -113,17 +113,14 @@ export default {
         this.vKey = key;
       })
     },
-    //处理获取到的歌词
-    HtmlDecode(str) { 
-    var t = document.createElement("div"); 
-    t.innerHTML = str; 
-    return t.textContent || t.innerText;
-  },
 
     //获取歌词
     getSongLyric(song) {
+       if (this.songLyric) {
+          this.songLyric.stop()
+        } 
       getLyric(song).then((res)=> {
-       let lyric = this.HtmlDecode(res.data.lyric)
+       let lyric = Base64.decode(res.data.lyric)
         this.songLyric = new Lyric(lyric, this.handleLyric)
         if (this.isplay) {
           this.songLyric.play()
@@ -139,11 +136,12 @@ export default {
       this.isplay = !this.isplay
       if(this.isplay) {
         this.$refs.audio.play()
-        // this.songLyric.play()
       }
       else {
         this.$refs.audio.pause()
-        this.songLyric.stop()
+      }
+      if(this.songLyric) {
+        this.songLyric.togglePlay()
       }
     }
   },
@@ -289,6 +287,13 @@ export default {
 .song-description .lyric {
   height: 72px;
   overflow: hidden;
+}
+
+.song-description p {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; 
 }
 
 .song-description p.active {

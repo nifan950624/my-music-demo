@@ -1,5 +1,4 @@
 import { getJsonpData } from './jsonp'
-import axios from 'axios'
 
 //请求热门歌单
 export function getRecommend() {
