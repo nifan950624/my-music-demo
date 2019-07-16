@@ -67,6 +67,21 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           console.log(e)
         })
       })
+      //热门搜索列表获取
+      app.get('/api/getSearchList', function (req, res) {
+        var url = 'https://c.y.qq.com/splcloud/fcgi-bin/gethotkey.fcg'
+        axios.get(url, {
+          headers: {
+            referer: 'https://y.qq.com/m/index.html',
+            origin: 'https://y.qq.com'
+          },
+          params: req.query
+        }).then((response) => {
+          res.json(response.data)
+        }).catch((e) => {
+          console.log(e)
+        })
+      })
 
       // 榜单获取
       app.get('/api/getRankSong', function (req, res) {

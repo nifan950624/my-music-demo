@@ -174,7 +174,7 @@ section.topbar > a::after {
   position: absolute;
   height: 2px;
   background: #d43c33;
-  bottom: 1px;
+  bottom: 0;
   left: 0;
   width: 100%;
 }

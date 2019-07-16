@@ -263,6 +263,7 @@ export default {
 
 .song-description {
   flex-grow: 1;
+  padding: 0 10px;
   color: #aeabac;
   text-align: center;
   line-height: 2;
