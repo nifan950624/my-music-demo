@@ -1,41 +1,55 @@
 <template>
   <div class="search-song">
-    <form action>
-      <label>
-        <div class="search-container">
-          <div class="search-left iconfont icon-sousuo"></div>
-          <input class="search-right" placeholder="搜索歌曲、歌手、专辑" id="search" type="text" />
-        </div>
-      </label>
-    </form>
+    <label>
+      <div class="search-container">
+        <div class="search-left iconfont icon-sousuo"></div>
+        <input class="search-right" v-model="query" placeholder="搜索歌曲、歌手、专辑" id="search" type="text" />
+      </div>
+    </label>
     <div class="recommend-search border-top">
       <div class="title">热门搜索</div>
       <ul class="search-list">
-        <li class="search-item" v-show="index < 9"  v-for="(song,index) of hotkey" :key="song.n">{{song.k}}</li>
+        <li
+          class="search-item"
+          v-show="index < 9"
+          v-for="(song,index) of hotkey"
+          :key="song.n"
+        >{{song.k}}</li>
       </ul>
     </div>
   </div>
 </template>
 
 <script>
-import {getSearchList} from 'common/js/getSearchList'
+import { getSearchList,getSearchSong } from "common/js/getSearchList";
 export default {
+  watch: {
+    query() {
+      this._getSearchSong()
+    }
+  },
   data() {
     return {
-      hotkey: []
-    }
+      hotkey: [],
+      query: ""
+    };
   },
   methods: {
     _getSearchList() {
-      getSearchList().then((res)=> {
-        this.hotkey = res.data.data.hotkey
+      getSearchList().then(res => {
+        this.hotkey = res.data.data.hotkey;
+      });
+    },
+    _getSearchSong() {
+      getSearchSong(this.query).then((res) => {
+        console.log(res)
       })
     }
   },
   created() {
-    this._getSearchList()
+    this._getSearchList();
   }
-}
+};
 </script>
 
 <style scoped>
@@ -71,9 +85,8 @@ export default {
 
 .recommend-search .title {
   margin-bottom: 8px;
-  font-size:12p
-  x;
-  color:#333;
+  font-size: 12p x;
+  color: #333;
 }
 
 .search-item {
