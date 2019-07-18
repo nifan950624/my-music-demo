@@ -11,7 +11,11 @@
             id="search"
             type="text"
           />
-          <span v-show="query && query.length" @click.stop.prevent="handleDel" class="del iconfont icon-del2"></span>
+          <span
+            v-show="query && query.length"
+            @click.stop.prevent="handleDel"
+            class="del iconfont icon-del2"
+          ></span>
         </div>
       </label>
     </form>
@@ -71,6 +75,7 @@ export default {
     },
     handleHotClick(name) {
       this.query = name;
+      this.handleQuery()
     },
     handleSongClick(song) {
       this.$store.commit("isShow", true);
@@ -169,6 +174,10 @@ export default {
 .song-name {
   margin-top: 5px;
   font-size: 17px;
+  max-width: 320px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .song-text {

@@ -173,13 +173,6 @@ export default {
   created() {
     this.getRecommendList()
     this.getNewSongList()
-    // this.$nextTick(()=> {
-    //   if(!this.scroll) {
-    //     this.scroll = new BScroll(this.$refs.wrapper,{click:true})
-    //   } else {
-    //     this.scroll.refresh();
-    //   }
-    // })
   }
 };
 </script>

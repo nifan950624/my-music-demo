@@ -22,7 +22,7 @@
     <div class="songlist-desc">
       <div class="desc">
         <span class="dt">简介:</span>
-        <span class="dd">{{currentdDesc}}</span>
+        <span class="dd" v-html="currentList.desc"></span>
       </div>
       <div class></div>
     </div>
@@ -67,13 +67,6 @@ export default {
       this.currentList = this.cdlist[0]
       this.backgroundUrl = this.currentList.logo
       
-    }
-  },
-  computed: {
-    currentdDesc() {
-      var t = document.createElement("div"); 
-      t.innerHTML = this.currentList.desc; 
-      return t.textContent || t.innerText;
     }
   },
   methods: {

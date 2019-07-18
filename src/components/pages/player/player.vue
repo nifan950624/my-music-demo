@@ -2,15 +2,9 @@
   <div class="player" v-show="isShow">
     <div @click="handleBackClick" class="back iconfont icon-back"></div>
     <div class="page">
-      <div class="page-opacity" 
-      :style="{backgroundImage: `url(${songMsg.image})`}">
-      </div>
-      <audio
-      @ended="audioEnd" 
-      :src="songMsg.url" 
-      ref="audio"></audio>
-      <div class="disc-container" 
-      :class="{playing : isplay}">
+      <div class="page-opacity" :style="{backgroundImage: `url(${songMsg.image})`}"></div>
+      <audio @ended="audioEnd" :src="songMsg.url" ref="audio"></audio>
+      <div class="disc-container" :class="{playing : isplay}">
         <img
           class="pointer"
           src="//s3.music.126.net/m/s/img/needle-ip6.png?be4ebbeb6befadfcae75ce174e7db862 "
@@ -18,15 +12,8 @@
         />
         <div class="disc">
           <div class="icon-wrapper">
-            <div
-            v-show="!isplay" 
-            class="iconfont icon-play"
-            @click="handleMusicClick"
-            ></div>
-            <div class="iconfont icon-pause"
-            @click="handleMusicClick"
-            v-show="isplay"
-            ></div>
+            <div v-show="!isplay" class="iconfont icon-play" @click="handleMusicClick"></div>
+            <div class="iconfont icon-pause" @click="handleMusicClick" v-show="isplay"></div>
           </div>
           <img
             class="ring"
@@ -45,8 +32,11 @@
         <h1>{{song.name || song.songname}}</h1>
         <div class="lyric">
           <div class="lines" :style="{'transform':translate}">
-            <p v-for="(lyric,index) of songLyric.lines" :key="index"
-            :class="{'active': currentNum === index}">{{lyric.txt}}</p>
+            <p
+              v-for="(lyric,index) of songLyric.lines"
+              :key="index"
+              :class="{'active': currentNum === index}"
+            >{{lyric.txt}}</p>
           </div>
         </div>
       </div>
@@ -59,93 +49,92 @@
 </template>
 
 <script>
-import {getVkey,createSong ,getLyric} from "common/js/getSong.js"
-import Lyric from 'lyric-parser'
-import { Base64 } from 'js-base64';
+import { getVkey, createSong, getLyric } from "common/js/getSong.js";
+import Lyric from "lyric-parser";
+import { Base64 } from "js-base64";
 export default {
   name: "player",
   data() {
     return {
-      song:{},
+      song: {},
       vKey: "",
       isplay: false,
       songMsg: {},
-      songLyric: '',
+      songLyric: "",
       currentNum: 0,
       translate: 0,
-      isShow: false 
+      isShow: false
     };
   },
   watch: {
-    '$store.state.song': function (){
-      this.song = this.$store.state.song
-      this.getSong(this.song.mid || this.song.songmid)
-      this.getSongLyric(this.song)
+    "$store.state.song": function() {
+      this.song = this.$store.state.song;
+      this.getSong(this.song.mid || this.song.songmid);
+      this.getSongLyric(this.song);
     },
-     '$store.state.isShow': function (){
-       this.isShow = this.$store.state.isShow
-       this.isplay = true
-     },
+    "$store.state.isShow": function() {
+      this.isShow = this.$store.state.isShow;
+      this.isplay = true;
+    },
     currentNum() {
-      this.translate = `translateY(${-(this.currentNum-1) * 24 + 'px'})` 
+      this.translate = `translateY(${-(this.currentNum - 1) * 24 + "px"})`;
     },
     vKey() {
-      this.songMsg = createSong(this.song,this.vKey)
+      this.songMsg = createSong(this.song, this.vKey);
       if (this.songMsg.url) {
-        this.isplay = true
+        this.isplay = true;
         //延时获取数据后再播放
-       setTimeout(()=>{
-          this.$refs.audio.play()
-        },20)
+        setTimeout(() => {
+          this.$refs.audio.play();
+        }, 20);
       }
-    },
+    }
   },
   methods: {
     handleBackClick() {
-      this.isShow = false
-      this.$store.commit('isShow',false)
+      this.isShow = false;
+      this.$store.commit("isShow", false);
     },
     audioEnd() {
-      this.isplay = false
+      this.isplay = false;
     },
     getSong(mid) {
       getVkey(mid).then(key => {
         this.vKey = key;
-      })
+      });
     },
 
     //获取歌词
     getSongLyric(song) {
-       if (this.songLyric) {
-          this.songLyric.stop()
-        } 
-      getLyric(song).then((res)=> {
-       let lyric = Base64.decode(res.data.lyric)
-        this.songLyric = new Lyric(lyric, this.handleLyric)
+      if (this.songLyric) {
+        this.songLyric.stop();
+      }
+      getLyric(song).then(res => {
+        let lyric = Base64.decode(res.data.lyric);
+        this.songLyric = new Lyric(lyric, this.handleLyric);
         if (this.isplay) {
-          this.songLyric.play()
-        } 
-      })
+          this.songLyric.play();
+        }
+      });
     },
 
-    handleLyric({lineNum,txt}) {
-      this.currentNum = lineNum
+    handleLyric({ lineNum, txt }) {
+      this.currentNum = lineNum;
     },
 
     handleMusicClick(e) {
-      this.isplay = !this.isplay
-      if(this.isplay) {
-        this.$refs.audio.play()
+      this.isplay = !this.isplay;
+      if (this.isplay) {
+        this.$refs.audio.play();
+      } else {
+        this.$refs.audio.pause();
       }
-      else {
-        this.$refs.audio.pause()
-      }
-      if(this.songLyric) {
-        this.songLyric.togglePlay()
+      if (this.songLyric) {
+        this.songLyric.togglePlay();
       }
     }
-  },
-}
+  }
+};
 </script>
 
 <style scoped>
@@ -156,19 +145,18 @@ export default {
   width: 100%;
   height: 100vh;
   z-index: 99;
-  background: grey ;
+  background: grey;
 }
 
 .back {
-  position:absolute;
-  padding:5px;
-  top:20px;
-  left:10px;
+  position: absolute;
+  padding: 5px;
+  top: 20px;
+  left: 10px;
   border-radius: 50%;
-  z-index:55;
+  z-index: 55;
   color: #aeabac;
 }
-
 
 @keyframes circle {
   0% {
@@ -294,7 +282,7 @@ export default {
   max-width: 100%;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; 
+  text-overflow: ellipsis;
 }
 
 .song-description p.active {
