@@ -1,6 +1,6 @@
-# qq-music
+# 仿写网易云音乐
 
->  QQ音乐
+>  网易云音乐
 
 ## Build Setup
 
@@ -10,18 +10,10 @@ npm install
 
 # serve with hot reload at localhost:8080
 npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run all tests
-npm test
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+![](http://pxp4jq1w8.bkt.clouddn.com/mweb/15706884011161.jpg)
+
+![](http://pxp4jq1w8.bkt.clouddn.com/mweb/15706884078809.jpg)
+
+![](http://pxp4jq1w8.bkt.clouddn.com/mweb/15706884231025.jpg)
