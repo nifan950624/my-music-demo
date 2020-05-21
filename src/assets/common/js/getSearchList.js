@@ -13,10 +13,10 @@ export async function getSearchList() {
     platform: 'h5',
     needNewCode: 1,
   }
-  return await axios.get(url, { params: data })
+  return await axios.get(url, {params: data})
 }
 
-export async function getSearchSong(keyword,) {
+export async function getSearchSong(keyword, pages) {
   let url = '/api/getSearchSong'
   let data = {
     _: new Date(),
@@ -38,8 +38,8 @@ export async function getSearchSong(keyword,) {
     aggr: 0,
     perpage: 20,
     n: 20,
-    p: 1,
+    p: pages,
     remoteplace: 'txt.mqq.all',
   }
-  return await axios.get(url, { params: data })
+  return await axios.get(url, {params: data})
 }
